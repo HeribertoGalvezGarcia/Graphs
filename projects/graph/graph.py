@@ -1,41 +1,41 @@
 """
 Simple graph implementation
 """
-from typing import Dict, Set, List, Optional
+from typing import Dict, Generic, Hashable, List, Optional, Set, TypeVar
 
-from util import Stack, Queue  # These may come in handy
+from util import Queue, Stack  # These may come in handy
+
+T = TypeVar('T', bound=Hashable)
 
 
-class Graph:
+class Graph(Generic[T]):
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
 
-    vertices: Dict[int, Set[int]]
-
     def __init__(self) -> None:
-        self.vertices = {}
+        self.vertices: Dict[T, Set[T]] = {}
 
-    def add_vertex(self, vertex_id: int) -> None:
+    def add_vertex(self, vertex_id: T) -> None:
         """
         Add a vertex to the graph.
         """
 
         self.vertices[vertex_id] = set()
 
-    def add_edge(self, v1: int, v2: int) -> None:
+    def add_edge(self, v1: T, v2: T) -> None:
         """
         Add a directed edge to the graph.
         """
 
         self.vertices[v1].add(v2)
 
-    def get_neighbors(self, vertex_id: int) -> Set[int]:
+    def get_neighbors(self, vertex_id: T) -> Set[T]:
         """
         Get all neighbors (edges) of a vertex.
         """
 
         return self.vertices[vertex_id]
 
-    def traverse(self, starting_vertex: int, breadth: bool) -> None:
+    def traverse(self, starting_vertex: T, breadth: bool) -> None:
         container = Queue() if breadth else Stack()
         add = container.enqueue if breadth else container.push
         remove = container.dequeue if breadth else container.pop
@@ -55,7 +55,7 @@ class Graph:
                 for vertex in self.get_neighbors(value):
                     add(vertex)
 
-    def bft(self, starting_vertex: int) -> None:
+    def bft(self, starting_vertex: T) -> None:
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
@@ -63,7 +63,7 @@ class Graph:
 
         self.traverse(starting_vertex, True)
 
-    def dft(self, starting_vertex: int) -> None:
+    def dft(self, starting_vertex: T) -> None:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -71,7 +71,7 @@ class Graph:
 
         self.traverse(starting_vertex, False)
 
-    def dft_recursive(self, starting_vertex: int, visited: Set[int] = None) -> None:
+    def dft_recursive(self, starting_vertex: T, visited: Set[T] = None) -> None:
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -90,7 +90,7 @@ class Graph:
         for vertex in self.get_neighbors(starting_vertex):
             self.dft_recursive(vertex, visited)
 
-    def search(self, starting_vertex: int, destination_vertex: int, breadth: bool) -> List[int]:
+    def search(self, starting_vertex: T, destination_vertex: T, breadth: bool) -> List[T]:
         container = Queue() if breadth else Stack()
         add = container.enqueue if breadth else container.push
         remove = container.dequeue if breadth else container.pop
@@ -115,7 +115,7 @@ class Graph:
                     path_copy.append(vertex)
                     add(path_copy)
 
-    def bfs(self, starting_vertex: int, destination_vertex: int) -> List[int]:
+    def bfs(self, starting_vertex: T, destination_vertex: T) -> List[T]:
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
@@ -124,7 +124,7 @@ class Graph:
 
         return self.search(starting_vertex, destination_vertex, True)
 
-    def dfs(self, starting_vertex: int, destination_vertex: int) -> List[int]:
+    def dfs(self, starting_vertex: T, destination_vertex: T) -> List[T]:
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -133,8 +133,7 @@ class Graph:
 
         return self.search(starting_vertex, destination_vertex, False)
 
-    def dfs_recursive(self, starting_vertex: int, destination_vertex: int,
-                      visited: Set[int] = None) -> Optional[List[int]]:
+    def dfs_recursive(self, starting_vertex: T, destination_vertex: T, visited: Set[T] = None) -> Optional[List[T]]:
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
