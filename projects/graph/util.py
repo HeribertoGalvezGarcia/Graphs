@@ -1,28 +1,35 @@
+from typing import Generic, TypeVar, List, Optional
 
-# Note: This Queue class is sub-optimal. Why?
-class Queue():
-    def __init__(self):
+T = TypeVar('T')
+
+
+class Queue(Generic[T]):
+    queue: List[T]
+
+    def __init__(self) -> None:
         self.queue = []
-    def enqueue(self, value):
+
+    def enqueue(self, value: T) -> None:
         self.queue.append(value)
-    def dequeue(self):
-        if self.size() > 0:
-            return self.queue.pop(0)
-        else:
-            return None
-    def size(self):
+
+    def dequeue(self) -> Optional[T]:
+        return self.queue.pop(0) if self.size() > 0 else None
+
+    def size(self) -> int:
         return len(self.queue)
 
-class Stack():
-    def __init__(self):
-        self.stack = []
-    def push(self, value):
-        self.stack.append(value)
-    def pop(self):
-        if self.size() > 0:
-            return self.stack.pop()
-        else:
-            return None
-    def size(self):
-        return len(self.stack)
 
+class Stack(Generic[T]):
+    stack: List[T]
+
+    def __init__(self) -> None:
+        self.stack = []
+
+    def push(self, value: T) -> None:
+        self.stack.append(value)
+
+    def pop(self) -> Optional[T]:
+        return self.stack.pop() if self.size() > 0 else None
+
+    def size(self) -> int:
+        return len(self.stack)
