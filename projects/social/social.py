@@ -55,7 +55,7 @@ class SocialGraph:
         for i in range(num_users):
             self.add_user(str(i))
 
-        friendships = random.choices(list(itertools.combinations(self.users, 2)), k=avg_friendships)
+        friendships = random.sample(list(itertools.combinations(self.users, 2)), avg_friendships)
 
         for (first_user, second_user) in friendships:
             self.add_friendship(first_user, second_user)
@@ -92,7 +92,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 10)
+    sg.populate_graph(10, 45)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
