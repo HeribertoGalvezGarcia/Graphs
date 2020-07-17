@@ -3,9 +3,10 @@ import sys
 import io
 from graph import Graph
 
+
 class Test(unittest.TestCase):
     def setUp(self):
-        self.graph = Graph()
+        self.graph: Graph[int] = Graph()
 
         self.graph.add_vertex(1)
         self.graph.add_vertex(2)
@@ -106,14 +107,15 @@ class Test(unittest.TestCase):
             [1, 2, 4, 6],
             [1, 2, 4, 7, 6]
         ]
-        self.assertIn(self.graph.dfs(1,6), dfs)
+        self.assertIn(self.graph.dfs(1, 6), dfs)
 
     def test_dfs_recursive(self):
         dfs = [
             [1, 2, 4, 6],
             [1, 2, 4, 7, 6]
         ]
-        self.assertIn(self.graph.dfs_recursive(1,6), dfs)
+        self.assertIn(self.graph.dfs_recursive(1, 6), dfs)
+
 
 if __name__ == '__main__':
     unittest.main()

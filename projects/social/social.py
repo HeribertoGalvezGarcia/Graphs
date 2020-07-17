@@ -1,5 +1,6 @@
 import itertools
 import random
+import time
 from collections import deque
 from typing import Dict, List, Set
 
@@ -92,7 +93,10 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 45)
+    t1 = time.monotonic()
+    sg.populate_graph(2500, 3123750)
+    t2 = time.monotonic()
+    print(t2-t1)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)

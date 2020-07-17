@@ -26,7 +26,13 @@ class Graph(Generic[T]):
         Add a directed edge to the graph.
         """
 
-        self.vertices[v1].add(v2)
+        if v2 not in self.vertices:
+            raise KeyError(f'{v2} not in vertices')
+
+        try:
+            self.vertices[v1].add(v2)
+        except KeyError:
+            raise KeyError(f'{v1} not in vertices')
 
     def get_neighbors(self, vertex_id: T) -> Set[T]:
         """
@@ -158,7 +164,7 @@ class Graph(Generic[T]):
 
 
 if __name__ == '__main__':
-    graph = Graph()  # Instantiate your graph
+    graph: Graph[int] = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     graph.add_vertex(1)
     graph.add_vertex(2)
